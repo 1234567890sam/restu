@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /r/
+
+# Block auth and dashboard from indexing
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /api/
+
+Sitemap: https://menuqr.app/sitemap.xml
