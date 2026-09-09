@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#ea580c" />
+      <stop offset="100%" stop-color="#c2410c" />
+    </linearGradient>
+    <linearGradient id="qrGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#fed7aa" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#bgGrad)" />
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.25" />
+
+  <!-- Restaurant Cloche / QR Cutout Emblem -->
+  <g filter="url(#shadow)" fill="url(#qrGrad)">
+    <!-- Plate Base -->
+    <path d="M14 44 C14 42.5 16 42 32 42 C48 42 50 42.5 50 44 C50 45 48 46 32 46 C16 46 14 45 14 44 Z" />
+    
+    <!-- Cloche Dome -->
+    <path d="M16 40 C16 28 23 21 32 21 C41 21 48 28 48 40 Z" />
+    
+    <!-- Cloche Handle Top -->
+    <circle cx="32" cy="18" r="3" />
+
+    <!-- Steam / Sparkle Accent -->
+    <path d="M26 14 C26 11 28 10 28 8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" />
+    <path d="M38 14 C38 11 36 10 36 8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" />
+  </g>
+
+  <!-- Subtle QR Corner Accents (mini finder pattern) -->
+  <g fill="#ffffff" opacity="0.9">
+    <!-- Top-Right mini QR marker -->
+    <rect x="44" y="8" width="10" height="10" rx="2" fill="#ffffff" />
+    <rect x="46" y="10" width="6" height="6" rx="1" fill="#ea580c" />
+    <rect x="48" y="12" width="2" height="2" fill="#ffffff" />
+  </g>
+</svg>
