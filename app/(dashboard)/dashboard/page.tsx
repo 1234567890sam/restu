@@ -20,7 +20,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { Button } from "@/app/_components/ui/button";
 import { Badge } from "@/app/_components/ui/badge";
-import { generateQRDataURL } from "@/lib/qr";
+import { generateQRDataURL, getMenuUrl } from "@/lib/qr";
 import { SeedMenuButton } from "./_components/seed-menu-button";
 
 export default async function DashboardPage() {
@@ -112,7 +112,7 @@ export default async function DashboardPage() {
   const vegItems = items.filter((i) => i.food_type === "veg");
   const nonVegItems = items.filter((i) => i.food_type === "non-veg");
 
-  const publicMenuUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/r/${restaurant.slug}`;
+  const publicMenuUrl = getMenuUrl(restaurant.slug);
   const qrDataUrl = await generateQRDataURL(publicMenuUrl, {
     width: 256,
     color: { dark: restaurant.theme_color || "#f59e0b", light: "#ffffff" },

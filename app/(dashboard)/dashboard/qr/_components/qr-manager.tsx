@@ -22,7 +22,14 @@ export function QRManager({ restaurant }: QRManagerProps) {
   const [copied, setCopied] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
-  const menuUrl = getMenuUrl(restaurant.slug, tableNumber || undefined);
+  // Client-side dynamic menu URL
+  const [menuUrl, setMenuUrl] = useState<string>(() =>
+    getMenuUrl(restaurant.slug, undefined)
+  );
+
+  useEffect(() => {
+    setMenuUrl(getMenuUrl(restaurant.slug, tableNumber || undefined));
+  }, [restaurant.slug, tableNumber]);
 
   useEffect(() => {
     let isMounted = true;
@@ -241,8 +248,8 @@ export function QRManager({ restaurant }: QRManagerProps) {
               <p className="text-xs font-semibold text-slate-800">
                 Contactless Digital Food Menu
               </p>
-              <p className="text-[10px] text-slate-400 font-mono truncate">
-                {restaurant.slug}.menuqr.app
+              <p className="text-[11px] text-slate-600 font-mono font-medium truncate px-2 py-0.5 rounded bg-slate-100/80 inline-block max-w-full">
+                {menuUrl ? menuUrl.replace(/^https?:\/\//, "") : `menurestu.vercel.app/r/${restaurant.slug}`}
               </p>
             </div>
           </div>

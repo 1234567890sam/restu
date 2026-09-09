@@ -181,8 +181,9 @@ export async function forgotPassword(
   }
 
   const supabase = await createClient();
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "https://menurestu.vercel.app");
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reset-password`,
+    redirectTo: `${baseUrl}/reset-password`,
   });
 
   if (error) {

@@ -5,6 +5,7 @@ import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
 import { Globe, ShieldCheck, CreditCard, Sparkles, AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { getMenuUrl } from "@/lib/qr";
 
 export default async function SettingsPage() {
   const restaurant = await getCurrentRestaurant();
@@ -13,7 +14,7 @@ export default async function SettingsPage() {
     redirect("/dashboard");
   }
 
-  const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/r/${restaurant.slug}`;
+  const publicUrl = getMenuUrl(restaurant.slug);
 
   return (
     <div className="space-y-8 max-w-4xl">

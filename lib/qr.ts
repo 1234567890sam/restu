@@ -47,13 +47,36 @@ export async function generateQRSVG(
   return await QRCode.toString(text, qrOptions);
 }
 
+export function getBaseUrl(): string {
+  // In the browser, always use current actual origin
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return window.location.origin;
+  }
+  // If NEXT_PUBLIC_APP_URL is explicitly set to a production domain
+  if (process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes("localhost")) {
+    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "");
+  }
+  // Vercel auto-provided system variables
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+}
+
 // Get the public URL for a restaurant menu
 export function getMenuUrl(slug: string, table?: string | number): string {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const url = new URL(`/r/${slug}`, baseUrl);
-  if (table) {
-    url.searchParams.set("table", String(table));
+  const baseUrl = getBaseUrl();
+  try {
+    const url = new URL(`/r/${slug}`, baseUrl);
+    if (table) {
+      url.searchParams.set("table", String(table));
+    }
+    return url.toString();
+  } catch {
+    const clean = baseUrl.replace(/\/$/, "");
+    return `${clean}/r/${slug}${table ? `?table=${table}` : ""}`;
   }
-  return url.toString();
 }
