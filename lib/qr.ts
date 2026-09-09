@@ -63,6 +63,10 @@ export function getBaseUrl(): string {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
+  // Production fallback — your live Vercel domain
+  if (process.env.NODE_ENV === "production") {
+    return "https://menurestu.vercel.app";
+  }
   return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 }
 
