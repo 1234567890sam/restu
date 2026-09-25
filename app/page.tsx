@@ -16,53 +16,13 @@ import {
 } from "lucide-react";
 import { Button } from "./_components/ui/button";
 import { Badge } from "./_components/ui/badge";
+import { LandingHeader } from "./_components/landing-header";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col justify-between selection:bg-amber-500 selection:text-white">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-linear-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform">
-              <QrCode className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white flex items-center">
-                Menu<span className="text-amber-500">QR</span>
-              </span>
-            </div>
-          </Link>
-
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
-            <a href="#features" className="hover:text-amber-500 transition-colors">
-              Features
-            </a>
-            <a href="#how-it-works" className="hover:text-amber-500 transition-colors">
-              How it Works
-            </a>
-            <a href="#pricing" className="hover:text-amber-500 transition-colors">
-              Pricing
-            </a>
-            <a href="#solapur" className="hover:text-amber-500 transition-colors">
-              Solapur Pilot
-            </a>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button variant="primary" size="sm" className="shadow-md shadow-amber-500/20">
-                Get Started
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <LandingHeader />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32">
@@ -202,6 +162,58 @@ export default function HomePage() {
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Choose between Classic Heritage, Modern Bistro, and Compact Diner templates. Apply your restaurant colors and mouthwatering dish photos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works Section */}
+      <section id="how-it-works" className="py-20 bg-slate-100/60 dark:bg-slate-900/40 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
+              Simple 3-Step Setup
+            </h2>
+            <p className="mt-2 text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+              From paper menu to QR tables in under 5 minutes
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-4 shadow-sm relative">
+              <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 font-black flex items-center justify-center text-lg shadow-md">
+                1
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                Create & Add Dishes
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Register your restaurant, upload mouthwatering photos, set prices, and categorize with 1-click sample menus.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-4 shadow-sm relative">
+              <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 font-black flex items-center justify-center text-lg shadow-md">
+                2
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                Print Table Stands
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Download ready-to-print table tent cards customized with table numbers, brand colors, and high-res vector QR codes.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-4 shadow-sm relative">
+              <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 font-black flex items-center justify-center text-lg shadow-md">
+                3
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                Diners Scan & Order
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Guests scan the table code with their phone camera. No app download needed. Prices and stock update in real-time.
               </p>
             </div>
           </div>

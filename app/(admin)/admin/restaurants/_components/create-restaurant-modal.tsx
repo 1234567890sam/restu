@@ -37,6 +37,7 @@ export function CreateRestaurantModal({
   const [ownerName, setOwnerName] = useState("");
   const [ownerPassword, setOwnerPassword] = useState("MenuQR@2025");
   const [phone, setPhone] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [city, setCity] = useState("Solapur");
   const [plan, setPlan] = useState("pro");
 
@@ -84,6 +85,7 @@ export function CreateRestaurantModal({
       formData.set("ownerName", ownerName.trim() || `${name.trim()} Owner`);
       formData.set("ownerPassword", ownerPassword || "MenuQR@2025");
       formData.set("phone", phone.trim());
+      formData.set("whatsapp", whatsapp.trim());
       formData.set("city", city.trim() || "Solapur");
       formData.set("plan", plan);
 
@@ -201,10 +203,10 @@ export function CreateRestaurantModal({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Restaurant Phone / WhatsApp
+                  Contact Phone
                 </label>
                 <div className="relative">
                   <Phone className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
@@ -212,6 +214,22 @@ export function CreateRestaurantModal({
                     type="text"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+91 98765 43210"
+                    className="w-full pl-8 pr-3 py-2 text-sm rounded-xl border border-slate-700 bg-slate-800/80 text-white placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  WhatsApp Number
+                </label>
+                <div className="relative">
+                  <Phone className="w-3.5 h-3.5 text-emerald-400 absolute left-3 top-3" />
+                  <input
+                    type="text"
+                    value={whatsapp}
+                    onChange={(e) => setWhatsapp(e.target.value)}
                     placeholder="+91 98765 43210"
                     className="w-full pl-8 pr-3 py-2 text-sm rounded-xl border border-slate-700 bg-slate-800/80 text-white placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
                   />

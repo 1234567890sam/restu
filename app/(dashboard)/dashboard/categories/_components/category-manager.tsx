@@ -282,6 +282,9 @@ export function CategoryManager({
                       >
                         {cat.is_active ? "Active" : "Hidden"}
                       </Badge>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                        {cat.item_count ?? 0} {cat.item_count === 1 ? "dish" : "dishes"}
+                      </span>
                     </div>
                     {cat.description && (
                       <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-md">
@@ -455,16 +458,28 @@ export function CategoryManager({
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <ConfirmDialog
-        open={Boolean(deleteId)}
-        onClose={() => setDeleteId(null)}
-        onConfirm={handleDelete}
-        title="Delete this category?"
-        description="Dishes belonging to this category will become uncategorized. This action cannot be undone."
-        confirmText="Delete Category"
-        variant="danger"
-        isLoading={loading}
-      />
+      {(() => {
+        const catToDelete = categories.find((c) => c.id === deleteId);
+        const count = catToDelete?.item_count ?? 0;
+        return (
+          <ConfirmDialog
+            open={Boolean(deleteId)}
+            onClose={() => setDeleteId(null)}
+            onConfirm={handleDelete}
+            title={`Delete "${catToDelete?.name || "Category"}"?`}
+            description={
+              count > 0
+                ? `Warning: This category currently contains ${count} ${
+                    count === 1 ? "dish" : "dishes"
+                  }. Deleting this category will permanently delete all these dishes from your live menu! This action cannot be undone.`
+                : "Are you sure you want to delete this category? This action cannot be undone."
+            }
+            confirmText="Delete Category"
+            variant="danger"
+            isLoading={loading}
+          />
+        );
+      })()}
     </div>
   );
 }

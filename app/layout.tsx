@@ -11,33 +11,34 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "MenuCraft — Digital Menu for Restaurants",
-    template: "%s | MenuCraft",
+    default: "MenuQR — Contactless Digital QR Menu for Restaurants",
+    template: "%s | MenuQR SaaS",
   },
   description:
-    "Create beautiful digital menus for your restaurant. QR code powered, mobile-friendly, instantly updatable. No app needed for customers.",
+    "Launch your contactless QR digital menu in under 2 minutes. Dynamic prices, FSSAI Indian veg/non-veg tags, and instant table stands. Zero mobile app required for diners.",
   keywords: [
     "digital menu",
-    "restaurant menu",
-    "QR code menu",
-    "restaurant SaaS",
-    "food menu",
-    "online menu",
+    "QR menu restaurant",
+    "contactless dining menu",
+    "restaurant SaaS India",
+    "Solapur restaurant menu",
+    "digital food menu",
+    "touchless menu QR",
   ],
-  authors: [{ name: "MenuCraft" }],
+  authors: [{ name: "MenuQR SaaS" }],
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "MenuCraft",
-    title: "MenuCraft — Digital Menu for Restaurants",
+    siteName: "MenuQR SaaS",
+    title: "MenuQR — Contactless Digital QR Menu for Restaurants",
     description:
-      "Create beautiful digital menus for your restaurant. QR code powered, mobile-friendly, instantly updatable.",
+      "Launch your contactless QR digital menu in under 2 minutes. Instant table stand QR codes and live price updates.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "MenuCraft — Digital Menu for Restaurants",
+    title: "MenuQR — Contactless Digital QR Menu for Restaurants",
     description:
-      "Create beautiful digital menus for your restaurant. QR code powered, mobile-friendly, instantly updatable.",
+      "Launch your contactless QR digital menu in under 2 minutes. Instant table stand QR codes and live price updates.",
   },
   robots: {
     index: true,
@@ -53,7 +54,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">

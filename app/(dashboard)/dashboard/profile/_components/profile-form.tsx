@@ -134,12 +134,20 @@ export function ProfileForm({ restaurant }: ProfileFormProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Input
                   label="Contact Phone"
                   name="phone"
                   placeholder="+91 98765 43210"
                   defaultValue={restaurant.phone || ""}
+                />
+
+                <Input
+                  label="WhatsApp Number"
+                  name="whatsapp"
+                  placeholder="+91 98765 43210"
+                  defaultValue={restaurant.whatsapp || ""}
+                  hint="Enables customer chat on menu"
                 />
 
                 <Input

@@ -160,6 +160,7 @@ export async function updateRestaurantProfile(
   const description = (formData.get("description") as string) || "";
   const tagline = (formData.get("tagline") as string) || "";
   const phone = (formData.get("phone") as string) || "";
+  const whatsapp = (formData.get("whatsapp") as string) || "";
   const email = (formData.get("email") as string) || "";
   const address = (formData.get("address") as string) || "";
   const city = (formData.get("city") as string) || "";
@@ -176,6 +177,7 @@ export async function updateRestaurantProfile(
       description,
       tagline,
       phone,
+      whatsapp,
       email,
       address,
       city,
@@ -195,6 +197,14 @@ export async function updateRestaurantProfile(
 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/profile");
+  const { data: profileRest } = await (admin as any)
+    .from("restaurants")
+    .select("slug")
+    .eq("id", restaurantId)
+    .maybeSingle();
+  if (profileRest?.slug) {
+    revalidatePath(`/r/${profileRest.slug}`);
+  }
   return { success: "Restaurant profile updated successfully!" };
 }
 
@@ -228,6 +238,47 @@ export async function updateRestaurantAppearance(
 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/appearance");
-  revalidatePath(`/r/${(await (admin as any).from("restaurants").select("slug").eq("id", restaurantId).maybeSingle()).data?.slug}`);
+  const { data: appRest } = await (admin as any)
+    .from("restaurants")
+    .select("slug")
+    .eq("id", restaurantId)
+    .maybeSingle();
+  if (appRest?.slug) {
+    revalidatePath(`/r/${appRest.slug}`);
+  }
   return { success: "Design and appearance updated successfully!" };
+}
+
+export async function toggleRestaurantActive(
+  restaurantId: string,
+  isActive: boolean
+): Promise<{ success?: string; error?: string }> {
+  const admin = createAdminClient();
+  const { error } = await (admin as any)
+    .from("restaurants")
+    .update({
+      is_active: isActive,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", restaurantId);
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/settings");
+  const { data: toggleRest } = await (admin as any)
+    .from("restaurants")
+    .select("slug")
+    .eq("id", restaurantId)
+    .maybeSingle();
+  if (toggleRest?.slug) {
+    revalidatePath(`/r/${toggleRest.slug}`);
+  }
+  return {
+    success: isActive
+      ? "Menu is now LIVE and accessible to customers!"
+      : "Menu has been temporarily paused.",
+  };
 }

@@ -64,7 +64,7 @@ export interface Database {
           font_family: string | null;
           opening_hours: string | Json | null;
           is_active: boolean;
-          status: "active" | "suspended" | "archived";
+          status: "pending" | "active" | "suspended" | "rejected" | "archived";
           subscription_plan: "free" | "basic" | "pro" | "enterprise";
           subscription_status: "active" | "trial" | "past_due" | "cancelled";
           created_at: string;
@@ -96,7 +96,7 @@ export interface Database {
           font_family?: string | null;
           opening_hours?: string | Json | null;
           is_active?: boolean;
-          status?: "active" | "suspended" | "archived";
+          status?: "pending" | "active" | "suspended" | "rejected" | "archived";
           subscription_plan?: "free" | "basic" | "pro" | "enterprise";
           subscription_status?: "active" | "trial" | "past_due" | "cancelled";
           created_at?: string;
@@ -127,7 +127,7 @@ export interface Database {
           font_family?: string | null;
           opening_hours?: string | Json | null;
           is_active?: boolean;
-          status?: "active" | "suspended" | "archived";
+          status?: "pending" | "active" | "suspended" | "rejected" | "archived";
           subscription_plan?: "free" | "basic" | "pro" | "enterprise";
           subscription_status?: "active" | "trial" | "past_due" | "cancelled";
           updated_at?: string;
@@ -345,6 +345,77 @@ export interface Database {
           updated_at?: string;
         };
       };
+      restaurant_members: {
+        Row: {
+          id: string;
+          restaurant_id: string;
+          user_id: string;
+          role: "owner" | "manager" | "staff";
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          restaurant_id: string;
+          user_id: string;
+          role?: "owner" | "manager" | "staff";
+          created_at?: string;
+        };
+        Update: {
+          restaurant_id?: string;
+          user_id?: string;
+          role?: "owner" | "manager" | "staff";
+        };
+      };
+      subscriptions: {
+        Row: {
+          id: string;
+          restaurant_id: string;
+          plan_id: string | null;
+          status: "trial" | "active" | "past_due" | "suspended" | "cancelled" | "expired";
+          current_period_start: string | null;
+          current_period_end: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          restaurant_id: string;
+          plan_id?: string | null;
+          status?: "trial" | "active" | "past_due" | "suspended" | "cancelled" | "expired";
+          current_period_start?: string | null;
+          current_period_end?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          plan_id?: string | null;
+          status?: "trial" | "active" | "past_due" | "suspended" | "cancelled" | "expired";
+          current_period_start?: string | null;
+          current_period_end?: string | null;
+          updated_at?: string;
+        };
+      };
+      analytics_events: {
+        Row: {
+          id: string;
+          restaurant_id: string;
+          event_type: "qr_scan" | "menu_view" | "item_view";
+          metadata: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          restaurant_id: string;
+          event_type?: "qr_scan" | "menu_view" | "item_view";
+          metadata?: Json | null;
+          created_at?: string;
+        };
+        Update: {
+          restaurant_id?: string;
+          event_type?: "qr_scan" | "menu_view" | "item_view";
+          metadata?: Json | null;
+        };
+      };
     };
   };
 }
@@ -352,7 +423,12 @@ export interface Database {
 // Shorthand aliases
 export type User = Database["public"]["Tables"]["users"]["Row"];
 export type Restaurant = Database["public"]["Tables"]["restaurants"]["Row"];
-export type Category = Database["public"]["Tables"]["categories"]["Row"];
+export type RestaurantMember = Database["public"]["Tables"]["restaurant_members"]["Row"];
+export type Subscription = Database["public"]["Tables"]["subscriptions"]["Row"];
+export type AnalyticsEvent = Database["public"]["Tables"]["analytics_events"]["Row"];
+export type Category = Database["public"]["Tables"]["categories"]["Row"] & {
+  item_count?: number;
+};
 export type MenuItem = Database["public"]["Tables"]["menu_items"]["Row"];
 export type MenuSettings = Database["public"]["Tables"]["menu_settings"]["Row"];
 export type QRCode = Database["public"]["Tables"]["qr_codes"]["Row"];

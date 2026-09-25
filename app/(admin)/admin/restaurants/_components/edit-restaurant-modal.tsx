@@ -36,6 +36,7 @@ export function EditRestaurantModal({
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [phone, setPhone] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [city, setCity] = useState("Solapur");
   const [state, setState] = useState("Maharashtra");
   const [address, setAddress] = useState("");
@@ -49,6 +50,7 @@ export function EditRestaurantModal({
       setName(restaurant.name || "");
       setSlug(restaurant.slug || "");
       setPhone(restaurant.phone || "");
+      setWhatsapp(restaurant.whatsapp || "");
       setCity(restaurant.city || "Solapur");
       setState(restaurant.state || "Maharashtra");
       setAddress(restaurant.address || "");
@@ -78,6 +80,7 @@ export function EditRestaurantModal({
         name,
         slug,
         phone,
+        whatsapp,
         city,
         state,
         address,
@@ -181,7 +184,7 @@ export function EditRestaurantModal({
           </div>
 
           {/* Contact & Location */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-300 flex items-center gap-1">
                 <Phone className="w-3 h-3 text-slate-400" />
@@ -191,6 +194,20 @@ export function EditRestaurantModal({
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                placeholder="+91 98765 43210"
+                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-700 bg-slate-800/80 text-white placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1">
+                <Phone className="w-3 h-3 text-emerald-400" />
+                <span>WhatsApp</span>
+              </label>
+              <input
+                type="tel"
+                value={whatsapp}
+                onChange={(e) => setWhatsapp(e.target.value)}
                 placeholder="+91 98765 43210"
                 className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-700 bg-slate-800/80 text-white placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-amber-500"
               />

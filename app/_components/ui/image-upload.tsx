@@ -117,7 +117,7 @@ export function ImageUpload({
               alt="Upload preview"
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+            <div className="absolute inset-0 bg-black/50 sm:bg-black/40 flex items-center justify-center gap-2 transition-opacity sm:opacity-0 sm:hover:opacity-100">
               <label className="cursor-pointer">
                 <input
                   type="file"
@@ -128,7 +128,7 @@ export function ImageUpload({
                     if (file) handleFile(file);
                   }}
                 />
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/90 text-slate-900 rounded-xl text-xs font-semibold hover:bg-white transition-colors shadow-md">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/95 text-slate-900 rounded-xl text-xs font-semibold hover:bg-white transition-colors shadow-md cursor-pointer">
                   <Upload className="h-3.5 w-3.5" />
                   Change
                 </div>
@@ -137,6 +137,7 @@ export function ImageUpload({
                 variant="danger"
                 size="sm"
                 onClick={handleRemove}
+                className="shadow-md"
               >
                 <X className="h-3.5 w-3.5" />
                 Remove

@@ -172,6 +172,30 @@ ALTER TABLE public.restaurants DROP CONSTRAINT IF EXISTS restaurants_status_chec
 ALTER TABLE public.restaurants ADD CONSTRAINT restaurants_status_check 
   CHECK (status IN ('pending', 'active', 'suspended', 'rejected', 'archived'));
 
+-- 13. Ensure all columns exist on public.menu_items (ADD COLUMN IF NOT EXISTS)
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS offer_price DECIMAL(10, 2);
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS food_type TEXT DEFAULT 'veg';
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS is_veg BOOLEAN DEFAULT TRUE;
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS is_spicy BOOLEAN DEFAULT FALSE;
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS is_bestseller BOOLEAN DEFAULT FALSE;
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS spice_level TEXT;
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS badge TEXT;
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS preparation_time TEXT;
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS calories INT;
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS allergens TEXT[];
+ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS display_order INT DEFAULT 0;
+
+-- 14. Ensure all columns exist on public.categories (ADD COLUMN IF NOT EXISTS)
+ALTER TABLE public.categories ADD COLUMN IF NOT EXISTS icon TEXT DEFAULT 'Utensils';
+ALTER TABLE public.categories ADD COLUMN IF NOT EXISTS image_url TEXT;
+ALTER TABLE public.categories ADD COLUMN IF NOT EXISTS display_order INT DEFAULT 0;
+ALTER TABLE public.categories ADD COLUMN IF NOT EXISTS is_visible BOOLEAN DEFAULT TRUE;
+
+-- 15. Ensure storage buckets exist for image uploads
+INSERT INTO storage.buckets (id, name, public) VALUES ('restaurant-logos', 'restaurant-logos', TRUE) ON CONFLICT (id) DO NOTHING;
+INSERT INTO storage.buckets (id, name, public) VALUES ('cover-images', 'cover-images', TRUE) ON CONFLICT (id) DO NOTHING;
+INSERT INTO storage.buckets (id, name, public) VALUES ('menu-images', 'menu-images', TRUE) ON CONFLICT (id) DO NOTHING;
+
 -- Reload Supabase PostgREST schema cache
 NOTIFY pgrst, 'reload schema';
 

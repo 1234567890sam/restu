@@ -255,6 +255,7 @@ export async function updateRestaurantDetailsAdmin(
     name: string;
     slug: string;
     phone?: string;
+    whatsapp?: string;
     city?: string;
     state?: string;
     address?: string;
@@ -294,6 +295,7 @@ export async function updateRestaurantDetailsAdmin(
     name: data.name.trim(),
     slug: cleanSlug,
     phone: data.phone?.trim() || null,
+    whatsapp: data.whatsapp?.trim() || null,
     city: data.city?.trim() || "Solapur",
     state: data.state?.trim() || "Maharashtra",
     address: data.address?.trim() || null,
@@ -426,6 +428,7 @@ export async function createRestaurantDirectAdmin(formData: FormData): Promise<{
   const ownerName = (formData.get("ownerName") as string)?.trim() || `${name} Owner`;
   const ownerPassword = (formData.get("ownerPassword") as string)?.trim() || "MenuQR@2025";
   const phone = (formData.get("phone") as string)?.trim();
+  const whatsapp = (formData.get("whatsapp") as string)?.trim();
   const city = (formData.get("city") as string)?.trim() || "Solapur";
   const state = (formData.get("state") as string)?.trim() || "Maharashtra";
   const plan = (formData.get("plan") as string)?.trim() || "pro";
@@ -509,6 +512,7 @@ export async function createRestaurantDirectAdmin(formData: FormData): Promise<{
       name,
       slug,
       phone: phone || null,
+      whatsapp: whatsapp || null,
       city: city || "Solapur",
       state: state || "Maharashtra",
       country: "India",

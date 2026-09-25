@@ -16,6 +16,19 @@ export async function getCategories(restaurantId: string): Promise<Category[]> {
     return [];
   }
 
+  // Fetch dish counts per category
+  const { data: itemRows } = await (admin as any)
+    .from("menu_items")
+    .select("category_id")
+    .eq("restaurant_id", restaurantId);
+
+  const countMap: Record<string, number> = {};
+  (itemRows || []).forEach((item: any) => {
+    if (item.category_id) {
+      countMap[item.category_id] = (countMap[item.category_id] || 0) + 1;
+    }
+  });
+
   // Sort by display_order or created_at in memory to avoid column missing errors
   const sorted = (data || []).sort((a: any, b: any) => {
     const orderA = a.display_order ?? a.sort_order ?? 0;
@@ -30,7 +43,23 @@ export async function getCategories(restaurantId: string): Promise<Category[]> {
     is_active: cat.is_active ?? cat.is_visible ?? true,
     is_visible: cat.is_visible ?? cat.is_active ?? true,
     icon: cat.icon || "Utensils",
+    item_count: countMap[cat.id] || 0,
   })) as Category[];
+}
+
+async function revalidateRestaurantMenu(admin: any, restaurantId: string) {
+  try {
+    const { data: rest } = await (admin as any)
+      .from("restaurants")
+      .select("slug")
+      .eq("id", restaurantId)
+      .maybeSingle();
+    if (rest?.slug) {
+      revalidatePath(`/r/${rest.slug}`);
+    }
+  } catch (e) {
+    console.warn("Notice during menu revalidation:", e);
+  }
 }
 
 export async function createCategory(
@@ -86,6 +115,7 @@ export async function createCategory(
   revalidatePath("/dashboard/categories");
   revalidatePath("/dashboard/items");
   revalidatePath("/dashboard");
+  await revalidateRestaurantMenu(admin, restaurantId);
 
   const mappedCat: Category = {
     ...newCat,
@@ -94,6 +124,7 @@ export async function createCategory(
     is_active: newCat.is_visible ?? true,
     is_visible: newCat.is_visible ?? true,
     icon: data.icon || "Utensils",
+    item_count: 0,
   };
 
   return { success: "Category created!", category: mappedCat };
@@ -121,6 +152,12 @@ export async function updateCategory(
     updateData.is_visible = data.isActive;
   }
 
+  const { data: catRecord } = await (admin as any)
+    .from("categories")
+    .select("restaurant_id")
+    .eq("id", categoryId)
+    .maybeSingle();
+
   const { error } = await (admin as any)
     .from("categories")
     .update(updateData)
@@ -133,11 +170,20 @@ export async function updateCategory(
   revalidatePath("/dashboard/categories");
   revalidatePath("/dashboard/items");
   revalidatePath("/dashboard");
+  if (catRecord?.restaurant_id) {
+    await revalidateRestaurantMenu(admin, catRecord.restaurant_id);
+  }
   return { success: "Category updated!" };
 }
 
 export async function deleteCategory(categoryId: string): Promise<{ success?: string; error?: string }> {
   const admin = createAdminClient();
+
+  const { data: catRecord } = await (admin as any)
+    .from("categories")
+    .select("restaurant_id")
+    .eq("id", categoryId)
+    .maybeSingle();
 
   const { error } = await (admin as any)
     .from("categories")
@@ -151,6 +197,9 @@ export async function deleteCategory(categoryId: string): Promise<{ success?: st
   revalidatePath("/dashboard/categories");
   revalidatePath("/dashboard/items");
   revalidatePath("/dashboard");
+  if (catRecord?.restaurant_id) {
+    await revalidateRestaurantMenu(admin, catRecord.restaurant_id);
+  }
   return { success: "Category deleted!" };
 }
 
@@ -176,6 +225,7 @@ export async function reorderCategories(
     revalidatePath("/dashboard/categories");
     revalidatePath("/dashboard/items");
     revalidatePath("/dashboard");
+    await revalidateRestaurantMenu(admin, restaurantId);
     return { success: "Categories reordered!" };
   } catch (err: any) {
     return { error: err.message || "Failed to reorder" };

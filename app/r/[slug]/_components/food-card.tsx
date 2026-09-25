@@ -284,11 +284,24 @@ export function FoodCard({
             </p>
           )}
 
-          {item.preparation_time && (
-            <div className="flex items-center gap-1 text-[11px] text-slate-500">
-              <Clock className="w-3 h-3" />
-              <span>{item.preparation_time}</span>
-            </div>
+          <div className="flex items-center gap-3 flex-wrap text-[11px] text-slate-400">
+            {item.preparation_time && (
+              <div className="flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                <span>{item.preparation_time}</span>
+              </div>
+            )}
+            {item.calories && (
+              <span className="flex items-center gap-0.5 text-amber-400/90 font-medium">
+                🔥 {item.calories} kcal
+              </span>
+            )}
+          </div>
+
+          {item.allergens && item.allergens.length > 0 && (
+            <p className="text-[10px] text-amber-400/80 bg-amber-950/40 border border-amber-800/30 px-2 py-0.5 rounded-md inline-block">
+              Contains: {item.allergens.join(", ")}
+            </p>
           )}
 
           {/* Price Row */}
@@ -312,13 +325,10 @@ export function FoodCard({
                 </div>
               )}
             </div>
-            {!isOutOfStock && (
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg transition-transform group-hover:scale-110"
-                style={{ backgroundColor: themeColor }}
-              >
-                +
-              </div>
+            {isOutOfStock && (
+              <span className="text-xs font-bold text-red-400 bg-red-950/40 border border-red-800/40 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                Sold Out
+              </span>
             )}
           </div>
         </div>
@@ -377,7 +387,17 @@ export function FoodCard({
                 <span>{item.preparation_time}</span>
               </div>
             )}
+            {item.calories && (
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                🔥 {item.calories} kcal
+              </span>
+            )}
           </div>
+          {item.allergens && item.allergens.length > 0 && (
+            <span className="text-[10px] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/50 dark:border-amber-900/40 px-1.5 py-0.5 rounded inline-block mt-1">
+              Contains: {item.allergens.join(", ")}
+            </span>
+          )}
         </div>
 
         {/* Right / Photo */}

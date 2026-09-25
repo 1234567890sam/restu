@@ -266,7 +266,7 @@ export function ItemsManager({
                     <span className="text-lg font-extrabold text-slate-900 dark:text-white">
                       ₹{item.price}
                     </span>
-                    {item.offer_price && (
+                    {item.offer_price && item.offer_price > item.price && (
                       <span className="text-xs text-slate-400 line-through">
                         ₹{item.offer_price}
                       </span>
@@ -316,7 +316,7 @@ export function ItemsManager({
         open={Boolean(deleteId)}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDelete}
-        title="Delete dish from menu?"
+        title={`Delete "${items.find((i) => i.id === deleteId)?.name || "dish"}" from menu?`}
         description="This will permanently delete this food item and remove it from your customer digital menu."
         confirmText="Delete Dish"
         variant="danger"

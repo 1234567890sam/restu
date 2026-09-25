@@ -49,12 +49,13 @@ export function Dialog({
     <div
       ref={overlayRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      onClick={(e) => {
-        if (e.target === overlayRef.current) onClose();
-      }}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-xs animate-fade-in" />
+      <div
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-xs animate-fade-in"
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
       {/* Dialog */}
       <div

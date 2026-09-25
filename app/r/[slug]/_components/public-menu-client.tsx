@@ -94,9 +94,13 @@ export function PublicMenuClient({
     setActiveCategory(catId);
     const el = document.getElementById(`category-${catId}`);
     if (el) {
-      const yOffset = -148;
+      const yOffset = -136;
       const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
+    }
+    const pill = document.getElementById(`pill-${catId}`);
+    if (pill) {
+      pill.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
   };
 
@@ -106,11 +110,24 @@ export function PublicMenuClient({
       setShowScrollTop(window.scrollY > 400);
 
       if (search) return;
-      const threshold = 200;
+      const threshold = 180;
       for (const cat of [...categories].reverse()) {
         const el = document.getElementById(`category-${cat.id}`);
         if (el && el.getBoundingClientRect().top <= threshold) {
-          setActiveCategory(cat.id);
+          setActiveCategory((prev) => {
+            if (prev !== cat.id) {
+              const pill = document.getElementById(`pill-${cat.id}`);
+              if (pill) {
+                pill.scrollIntoView({
+                  behavior: "smooth",
+                  inline: "center",
+                  block: "nearest",
+                });
+              }
+              return cat.id;
+            }
+            return prev;
+          });
           break;
         }
       }
@@ -180,7 +197,7 @@ export function PublicMenuClient({
               : "bg-white/95 dark:bg-slate-900/95 border-slate-200/80 dark:border-slate-800"
           }`}
         >
-          <div className="max-w-4xl mx-auto px-4 py-3 space-y-2.5">
+          <div className="max-w-4xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 space-y-2">
             {/* Row 1: Search + Layout toggle */}
             <div className="flex items-center gap-2">
               {/* Search */}
@@ -192,7 +209,7 @@ export function PublicMenuClient({
                   placeholder="Search dishes, drinks, desserts…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className={`w-full pl-9 pr-9 py-2 text-sm rounded-xl border focus:outline-none focus:ring-2 transition-all placeholder:text-slate-400 ${
+                  className={`w-full pl-9 pr-9 py-1.5 sm:py-2 text-xs sm:text-sm rounded-xl border focus:outline-none focus:ring-2 transition-all placeholder:text-slate-400 ${
                     isDark
                       ? "border-slate-700 bg-slate-800/70 text-white focus:ring-amber-500/50"
                       : "border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/70 focus:ring-amber-500"
@@ -247,7 +264,7 @@ export function PublicMenuClient({
                   key={d.id}
                   type="button"
                   onClick={() => setDietary(d.id as any)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     dietary === d.id
                       ? d.id === "veg"
                         ? "bg-emerald-600 text-white shadow-sm"
@@ -280,15 +297,16 @@ export function PublicMenuClient({
 
             {/* Row 3: Category Pill Nav */}
             {categories.length > 0 && !search && (
-              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 pb-0.5">
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-3 sm:-mx-4 px-3 sm:px-4 pb-0.5">
                 {categories.map((cat) => {
                   const isActive = activeCategory === cat.id;
                   return (
                     <button
                       key={cat.id}
+                      id={`pill-${cat.id}`}
                       type="button"
                       onClick={() => scrollToCategory(cat.id)}
-                      className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer shrink-0 ${
+                      className={`whitespace-nowrap px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer shrink-0 ${
                         isActive
                           ? "text-white scale-105 shadow-sm"
                           : isDark

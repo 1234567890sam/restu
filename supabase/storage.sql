@@ -3,10 +3,10 @@
 -- Run this AFTER schema.sql in Supabase SQL Editor
 -- ============================================
 
--- Create storage buckets
-INSERT INTO storage.buckets (id, name, public) VALUES ('restaurant-logos', 'restaurant-logos', TRUE);
-INSERT INTO storage.buckets (id, name, public) VALUES ('cover-images', 'cover-images', TRUE);
-INSERT INTO storage.buckets (id, name, public) VALUES ('menu-images', 'menu-images', TRUE);
+-- Create storage buckets safely
+INSERT INTO storage.buckets (id, name, public) VALUES ('restaurant-logos', 'restaurant-logos', TRUE) ON CONFLICT (id) DO NOTHING;
+INSERT INTO storage.buckets (id, name, public) VALUES ('cover-images', 'cover-images', TRUE) ON CONFLICT (id) DO NOTHING;
+INSERT INTO storage.buckets (id, name, public) VALUES ('menu-images', 'menu-images', TRUE) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================
 -- RESTAURANT LOGOS BUCKET POLICIES

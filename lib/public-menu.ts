@@ -102,19 +102,18 @@ export async function getPublicMenu(slug: string): Promise<PublicMenuData | null
       return orderA - orderB;
     });
 
-    const items: MenuItem[] = sortedItems
-      .filter((i: any) => i.is_available !== false)
-      .map((item: any) => ({
-        ...item,
-        food_type: item.food_type || (item.is_veg ? "veg" : "non-veg"),
-        is_veg: item.is_veg ?? true,
-        is_spicy: item.is_spicy ?? false,
-        is_bestseller: item.is_bestseller ?? false,
-        sort_order: item.display_order ?? item.sort_order ?? 0,
-        display_order: item.display_order ?? item.sort_order ?? 0,
-        badge: item.badge || (item.is_bestseller ? "bestseller" : null),
-        spice_level: item.spice_level || (item.is_spicy ? "spicy" : "mild"),
-      }));
+    const items: MenuItem[] = sortedItems.map((item: any) => ({
+      ...item,
+      is_available: item.is_available !== false,
+      food_type: item.food_type || (item.is_veg ? "veg" : "non-veg"),
+      is_veg: item.is_veg ?? true,
+      is_spicy: item.is_spicy ?? false,
+      is_bestseller: item.is_bestseller ?? false,
+      sort_order: item.display_order ?? item.sort_order ?? 0,
+      display_order: item.display_order ?? item.sort_order ?? 0,
+      badge: item.badge || (item.is_bestseller ? "bestseller" : null),
+      spice_level: item.spice_level || (item.is_spicy ? "spicy" : "mild"),
+    }));
 
     // Group items by category
     const categoriesWithItems = activeCategories.map((cat) => ({

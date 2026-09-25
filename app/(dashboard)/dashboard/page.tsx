@@ -41,50 +41,6 @@ export default async function DashboardPage() {
     );
   }
 
-  // Show pending approval state
-  if ((restaurant as any).status === "pending") {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-        <div className="relative">
-          <div className="w-24 h-24 rounded-3xl bg-amber-500/10 border-2 border-dashed border-amber-500/40 flex items-center justify-center mb-6 mx-auto animate-pulse">
-            <Clock className="w-10 h-10 text-amber-500" />
-          </div>
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-          Approval Pending
-        </h2>
-        <p className="text-slate-500 dark:text-slate-400 mt-3 max-w-md text-sm leading-relaxed">
-          Your restaurant <strong className="text-amber-600 dark:text-amber-400">{restaurant.name}</strong> is
-          currently under review. Our team will verify and activate your
-          account shortly.
-        </p>
-        <div className="mt-8 flex flex-col items-center gap-4 p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 max-w-sm w-full">
-          <div className="flex items-center gap-3 text-left w-full">
-            <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 flex items-center justify-center shrink-0">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <span className="text-sm text-slate-700 dark:text-slate-300">Account created successfully</span>
-          </div>
-          <div className="flex items-center gap-3 text-left w-full">
-            <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 flex items-center justify-center shrink-0">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <span className="text-sm text-slate-700 dark:text-slate-300">Restaurant profile submitted</span>
-          </div>
-          <div className="flex items-center gap-3 text-left w-full">
-            <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/50 flex items-center justify-center shrink-0 animate-pulse">
-              <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            </div>
-            <span className="text-sm font-semibold text-amber-600 dark:text-amber-400">Waiting for admin approval</span>
-          </div>
-        </div>
-        <p className="text-xs text-slate-400 mt-6">
-          This usually takes less than 24 hours. Contact support if you have questions.
-        </p>
-      </div>
-    );
-  }
-
   // Show suspended state
   if ((restaurant as any).status === "suspended") {
     return (
@@ -103,6 +59,8 @@ export default async function DashboardPage() {
     );
   }
 
+  const isPending = (restaurant as any).status === "pending";
+
   const [categories, items] = await Promise.all([
     getCategories(restaurant.id),
     getMenuItems(restaurant.id),
@@ -120,6 +78,34 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      {/* Pending Approval Notice Banner */}
+      {isPending && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
+              <Clock className="w-5 h-5 text-amber-500 animate-pulse" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                Account Review in Progress
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-500 text-slate-950">
+                  Under Review
+                </span>
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 max-w-xl">
+                Your restaurant profile is submitted and currently under review. In the meantime, you can add your dishes, organize categories, and preview your menu!
+              </p>
+            </div>
+          </div>
+          <Link href={`/r/${restaurant.slug}`} target="_blank">
+            <Button variant="outline" size="sm" className="shrink-0 text-xs">
+              <Eye className="w-3.5 h-3.5 mr-1" />
+              Preview Menu
+            </Button>
+          </Link>
+        </div>
+      )}
+
       {/* Top Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-amber-600 via-amber-700 to-stone-900 p-6 sm:p-8 text-white shadow-xl shadow-amber-950/10">
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -398,7 +384,7 @@ export default async function DashboardPage() {
                         <p className="text-sm font-bold text-slate-900 dark:text-white">
                           ₹{item.price}
                         </p>
-                        {item.offer_price && (
+                        {item.offer_price && item.offer_price > item.price && (
                           <p className="text-xs text-slate-400 line-through">
                             ₹{item.offer_price}
                           </p>

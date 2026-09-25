@@ -12,6 +12,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { logout } from "@/app/actions/auth";
+import { AdminNav } from "./_components/admin-nav";
 
 export default async function AdminLayout({
   children,
@@ -59,39 +60,7 @@ export default async function AdminLayout({
             </div>
           </div>
 
-          <nav className="space-y-1">
-            <Link
-              href="/admin"
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              <span>Overview</span>
-            </Link>
-
-            <Link
-              href="/admin/restaurants"
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
-            >
-              <Store className="w-4 h-4" />
-              <span>Restaurants</span>
-            </Link>
-
-            <Link
-              href="/admin/subscriptions"
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
-            >
-              <CreditCard className="w-4 h-4" />
-              <span>Subscriptions</span>
-            </Link>
-
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-amber-400 hover:bg-amber-950/40 transition-colors pt-4 border-t border-slate-800"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Owner Dashboard</span>
-            </Link>
-          </nav>
+          <AdminNav />
         </div>
 
         <div className="pt-6 border-t border-slate-800">

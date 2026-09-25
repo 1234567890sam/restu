@@ -1,5 +1,5 @@
 import type { Restaurant } from "@/lib/database.types";
-import { MapPin, Phone, Clock, Share2, Wifi } from "lucide-react";
+import { MapPin, Phone, Clock, Share2, Wifi, MessageCircle } from "lucide-react";
 
 interface MenuHeaderProps {
   restaurant: Restaurant;
@@ -142,17 +142,32 @@ export function MenuHeader({
             </div>
           </div>
 
-          {/* Phone / Call Waiter */}
-          {restaurant.phone && (
-            <a
-              href={`tel:${restaurant.phone}`}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white shadow-md hover:opacity-90 active:scale-95 transition-all shrink-0"
-              style={{ backgroundColor: themeColor }}
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>Call Waiter</span>
-            </a>
-          )}
+          {/* Actions: WhatsApp + Phone Call */}
+          <div className="flex items-center gap-2 shrink-0">
+            {restaurant.whatsapp && (
+              <a
+                href={`https://wa.me/${restaurant.whatsapp.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md active:scale-95 transition-all shrink-0"
+                title="Chat with restaurant on WhatsApp"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>WhatsApp</span>
+              </a>
+            )}
+
+            {restaurant.phone && (
+              <a
+                href={`tel:${restaurant.phone}`}
+                className="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold text-white shadow-md hover:opacity-90 active:scale-95 transition-all shrink-0"
+                style={{ backgroundColor: themeColor }}
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>Call</span>
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Info Strip */}

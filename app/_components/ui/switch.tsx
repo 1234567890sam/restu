@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useId } from "react";
 import { cn } from "@/lib/utils";
 
 export interface SwitchProps
@@ -11,7 +11,8 @@ export interface SwitchProps
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   ({ className, label, description, checked, onChange, disabled, id, ...props }, ref) => {
-    const switchId = id || (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
+    const generatedId = useId();
+    const switchId = id || (label ? label.toLowerCase().replace(/[^a-z0-9]+/g, "-") : generatedId);
 
     return (
       <label

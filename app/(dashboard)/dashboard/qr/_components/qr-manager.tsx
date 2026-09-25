@@ -12,9 +12,10 @@ import { toast } from "sonner";
 
 interface QRManagerProps {
   restaurant: Restaurant;
+  initialMenuUrl?: string;
 }
 
-export function QRManager({ restaurant }: QRManagerProps) {
+export function QRManager({ restaurant, initialMenuUrl }: QRManagerProps) {
   const [tableNumber, setTableNumber] = useState<string>("");
   const [qrColor, setQrColor] = useState<string>(restaurant.theme_color || "#0f172a");
   const [qrBgColor, setQrBgColor] = useState<string>("#ffffff");
@@ -22,9 +23,9 @@ export function QRManager({ restaurant }: QRManagerProps) {
   const [copied, setCopied] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Client-side dynamic menu URL
-  const [menuUrl, setMenuUrl] = useState<string>(() =>
-    getMenuUrl(restaurant.slug, undefined)
+  // Client-side dynamic menu URL initialized with server value for clean hydration
+  const [menuUrl, setMenuUrl] = useState<string>(
+    initialMenuUrl || getMenuUrl(restaurant.slug, undefined)
   );
 
   useEffect(() => {
@@ -174,7 +175,7 @@ export function QRManager({ restaurant }: QRManagerProps) {
               </Button>
 
               <a
-                href={`/api/qr?url=${encodeURIComponent(menuUrl)}&format=svg&color=${encodeURIComponent(qrColor)}&download=true&filename=${restaurant.slug}-qr`}
+                href={`/api/qr?url=${encodeURIComponent(menuUrl)}&format=svg&color=${encodeURIComponent(qrColor)}&bg=${encodeURIComponent(qrBgColor)}&download=true&filename=${restaurant.slug}-qr`}
                 download
                 className="w-full"
               >

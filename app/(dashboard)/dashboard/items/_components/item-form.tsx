@@ -50,6 +50,14 @@ export function ItemForm({
   );
   const [description, setDescription] = useState(initialData?.description || "");
   const [preparationTime, setPreparationTime] = useState(initialData?.preparation_time || "");
+  const [calories, setCalories] = useState<string>(
+    initialData?.calories ? String(initialData.calories) : ""
+  );
+  const [allergens, setAllergens] = useState<string>(
+    initialData?.allergens && Array.isArray(initialData.allergens)
+      ? initialData.allergens.join(", ")
+      : ""
+  );
   const [imageUrl, setImageUrl] = useState<string | null>(initialData?.image_url || null);
   const [isAvailable, setIsAvailable] = useState(
     initialData?.is_available !== undefined ? initialData.is_available : true
@@ -87,6 +95,18 @@ export function ItemForm({
     }
 
     const parsedOfferPrice = offerPrice ? parseFloat(offerPrice) : null;
+    if (parsedOfferPrice !== null && parsedOfferPrice <= parsedPrice) {
+      toast.error("Strike price must be greater than selling price to show a discount");
+      return;
+    }
+
+    const parsedCalories = calories ? parseInt(calories, 10) : null;
+    const parsedAllergens = allergens
+      ? allergens
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : null;
 
     setLoading(true);
 
@@ -101,6 +121,8 @@ export function ItemForm({
         badge: badge === "none" ? null : badge,
         description: description.trim(),
         preparationTime: preparationTime.trim() || null,
+        calories: parsedCalories,
+        allergens: parsedAllergens || undefined,
         imageUrl,
         isAvailable,
       });
@@ -125,6 +147,8 @@ export function ItemForm({
         badge: badge === "none" ? null : badge,
         description: description.trim(),
         preparationTime: preparationTime.trim() || null,
+        calories: parsedCalories,
+        allergens: parsedAllergens || undefined,
         imageUrl,
         isAvailable,
       });
@@ -325,6 +349,26 @@ export function ItemForm({
                   <option value="must_try">🔥 Must Try</option>
                   <option value="new">✨ New Arrival</option>
                 </Select>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <Input
+                  type="number"
+                  min="0"
+                  label="Calories (kcal, Optional)"
+                  placeholder="e.g. 350"
+                  value={calories}
+                  onChange={(e) => setCalories(e.target.value)}
+                  hint="Energy value in kcal"
+                />
+
+                <Input
+                  label="Allergens (Optional)"
+                  placeholder="e.g. Dairy, Peanuts, Gluten"
+                  value={allergens}
+                  onChange={(e) => setAllergens(e.target.value)}
+                  hint="Separate multiple items with commas"
+                />
               </div>
             </CardContent>
           </Card>
