@@ -1,14 +1,32 @@
+# MenuQR Search Engine Crawl Rules
 User-agent: *
 Allow: /
 Allow: /r/
+Allow: /signup
+Allow: /login
 
-# Block auth and dashboard from indexing
+# Disallow private user dashboards and api routes
 Disallow: /dashboard/
 Disallow: /admin/
-Disallow: /login
-Disallow: /signup
+Disallow: /api/
+Disallow: /auth/
 Disallow: /forgot-password
 Disallow: /reset-password
+
+# Googlebot specific directives
+User-agent: Googlebot
+Allow: /
+Allow: /r/
+Disallow: /dashboard/
+Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://menuqr.app/sitemap.xml
+# Bingbot specific directives
+User-agent: Bingbot
+Allow: /
+Allow: /r/
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://menurestu.vercel.app/sitemap.xml

@@ -33,6 +33,9 @@ export function LandingHeader() {
           <a href="#pricing" className="hover:text-amber-500 transition-colors">
             Pricing
           </a>
+          <a href="#faq" className="hover:text-amber-500 transition-colors">
+            FAQ
+          </a>
           <a href="#solapur" className="hover:text-amber-500 transition-colors">
             Solapur Pilot
           </a>
@@ -94,6 +97,13 @@ export function LandingHeader() {
               className="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               Pricing Plans
+            </a>
+            <a
+              href="#faq"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              FAQ
             </a>
             <a
               href="#solapur"

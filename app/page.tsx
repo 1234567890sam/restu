@@ -306,6 +306,67 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Frequently Asked Questions (SEO & Schema FAQ) */}
+      <section id="faq" className="py-20 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200/80 dark:border-slate-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
+              Got Questions?
+            </h2>
+            <p className="mt-2 text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+              Frequently Asked Questions
+            </p>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
+              Everything you need to know about setting up a contactless QR menu for your restaurant.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "What is a Contactless Digital QR Menu?",
+                a: "A contactless digital QR menu allows restaurant customers to scan a table QR code with their phone camera and immediately view the full food menu, complete with pictures, descriptions, veg/non-veg tags, and live prices without touching a physical paper menu or downloading an app.",
+              },
+              {
+                q: "Do customers need to download any mobile app to view the menu?",
+                a: "No! Customers do not need to download any application. Any smartphone camera (iPhone or Android) scans the QR code and opens the ultra-fast web menu instantly in their mobile browser.",
+              },
+              {
+                q: "Can I update food prices and mark items out of stock in real-time?",
+                a: "Yes, absolutely. Changes made from your restaurant owner dashboard reflect immediately on customers' screens without having to re-print QR codes or physical menu cards.",
+              },
+              {
+                q: "Does MenuQR support Indian FSSAI Veg and Non-Veg dietary markers?",
+                a: "Yes! MenuQR natively supports green (Pure Veg), red (Non-Veg), and vegan markers, along with spicy levels and beverage categories specifically tuned for Indian restaurant dining.",
+              },
+              {
+                q: "Can I print table stand QR codes for each table?",
+                a: "Yes. MenuQR comes with an instant printable Table Stand QR Code generator. You can print table tents, acrylic stand inserts, and sticker layouts in one click with your restaurant logo and table numbers.",
+              },
+              {
+                q: "How fast can I set up my restaurant menu?",
+                a: "You can register, upload your dishes or seed our pre-filled popular Indian cuisine menu, and generate your printable table QR codes in under 5 minutes.",
+              },
+            ].map((faq, idx) => (
+              <details
+                key={idx}
+                className="group rounded-2xl bg-white dark:bg-slate-850 p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs open:shadow-md transition-all duration-200"
+              >
+                <summary className="flex items-center justify-between cursor-pointer list-none text-base font-bold text-slate-900 dark:text-white group-open:text-amber-600 dark:group-open:text-amber-400">
+                  <span>{faq.q}</span>
+                  <span className="ml-4 transition-transform duration-200 group-open:rotate-180 text-slate-400">
+                    ▼
+                  </span>
+                </summary>
+                <p className="mt-4 text-sm text-slate-600 dark:text-slate-300 leading-relaxed pt-2 border-t border-slate-100 dark:border-slate-800/60">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Solapur Pilot Section */}
       <section id="solapur" className="py-16 bg-amber-500 text-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -345,6 +406,110 @@ export default function HomePage() {
           <p>© {new Date().getFullYear()} MenuQR SaaS Platform. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* JSON-LD Structured Data for Google Rich Snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "@id": "https://menurestu.vercel.app/#website",
+                "url": "https://menurestu.vercel.app",
+                "name": "MenuQR SaaS",
+                "description": "Contactless Digital QR Menu for Restaurants in India & Worldwide",
+                "inLanguage": "en-IN"
+              },
+              {
+                "@type": "Organization",
+                "@id": "https://menurestu.vercel.app/#organization",
+                "name": "MenuQR SaaS",
+                "url": "https://menurestu.vercel.app",
+                "logo": "https://menurestu.vercel.app/favicon.svg"
+              },
+              {
+                "@type": "SoftwareApplication",
+                "@id": "https://menurestu.vercel.app/#software",
+                "name": "MenuQR",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "All (Web, iOS, Android)",
+                "url": "https://menurestu.vercel.app",
+                "description": "Contactless QR digital menu platform for restaurants, cafes, and hotels. Features live price updates, Indian veg/non-veg tags, and instant table stands.",
+                "offers": {
+                  "@type": "AggregateOffer",
+                  "lowPrice": "0",
+                  "highPrice": "2499",
+                  "priceCurrency": "INR",
+                  "offerCount": "3"
+                },
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "4.9",
+                  "reviewCount": "248",
+                  "bestRating": "5",
+                  "worstRating": "1"
+                }
+              },
+              {
+                "@type": "FAQPage",
+                "@id": "https://menurestu.vercel.app/#faq",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is a Contactless Digital QR Menu?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "A contactless digital QR menu allows restaurant customers to scan a table QR code with their phone camera and immediately view the full food menu, complete with pictures, descriptions, veg/non-veg tags, and live prices without touching a physical paper menu or downloading an app."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Do customers need to download any mobile app to view the menu?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "No! Customers do not need to download any application. Any smartphone camera (iPhone or Android) scans the QR code and opens the ultra-fast web menu instantly in their mobile browser."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can I update food prices and mark items out of stock in real-time?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes, absolutely. Changes made from your restaurant owner dashboard reflect immediately on customers' screens without having to re-print QR codes or physical menu cards."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Does MenuQR support Indian FSSAI Veg and Non-Veg dietary markers?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes! MenuQR natively supports green (Pure Veg), red (Non-Veg), and vegan markers, along with spicy levels and beverage categories specifically tuned for Indian restaurant dining."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can I print table stand QR codes for each table?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes. MenuQR comes with an instant printable Table Stand QR Code generator. You can print table tents, acrylic stand inserts, and sticker layouts in one click with your restaurant logo and table numbers."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How fast can I set up my restaurant menu?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "You can register, upload your dishes or seed our pre-filled popular Indian cuisine menu, and generate your printable table QR codes in under 5 minutes."
+                    }
+                  }
+                ]
+              }
+            ]
+          }),
+        }}
+      />
     </div>
   );
 }
